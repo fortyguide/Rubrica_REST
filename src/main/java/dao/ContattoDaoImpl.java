@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,12 +37,40 @@ public class ContattoDaoImpl implements ContattoDao {
 
             return contatto;
 
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             throw new DaoException(ex);
         }
     }
 
     public Contatto ricercaContattoPerId(Integer id) throws DaoException {
+        String sql = "select * from contacts where id = ?";
+
+        try(
+                Connection conn = DbUtil.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ) {
+            stmt.setInt(1, id);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if(rs.next()) {
+                Contatto contatto = new Contatto();
+                contatto.setId(rs.getInt("id"));
+                contatto.setNome(rs.getString("name"));
+                contatto.setGenere(rs.getString("gender"));
+                contatto.setEmail(rs.getString("email"));
+                contatto.setTelefono(rs.getString("phone"));
+                contatto.setCitta(rs.getString("city"));
+                contatto.setNazione(rs.getString("country"));
+                rs.close();
+                return contatto;
+            }
+
+            rs.close();
+
+        } catch (Exception ex) {
+            throw new DaoException(ex);
+        }
         return null;
     }
 
@@ -72,7 +101,7 @@ public class ContattoDaoImpl implements ContattoDao {
     }
 
     public void cancellazioneContatto(Integer id) throws DaoException {
-        String sql = "delete form contacts where id = ?";
+        String sql = "delete from contacts where id = ?";
 
         try(
                 Connection conn = DbUtil.getConnection();
@@ -84,20 +113,97 @@ public class ContattoDaoImpl implements ContattoDao {
             if (count == 0) {
                 throw new DaoException("Nessun record da cancellare; id fornito non valido - " + id);
             }
-        }catch(Exception ex) {
+        } catch(Exception ex) {
             throw new DaoException(ex);
         }
     }
 
     public List<Contatto> ricercaTuttiIContatti() throws DaoException {
-        return null;
+        String sql = "select * from contacts";
+        List<Contatto> list = new ArrayList<>();
+
+        try(
+                Connection conn = DbUtil.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery();
+        ){
+            while(rs.next()){
+                Contatto contatto = new Contatto();
+                contatto.setId(rs.getInt("id"));
+                contatto.setNome(rs.getString("name"));
+                contatto.setGenere(rs.getString("gender"));
+                contatto.setEmail(rs.getString("email"));
+                contatto.setTelefono(rs.getString("phone"));
+                contatto.setCitta(rs.getString("city"));
+                contatto.setNazione(rs.getString("country"));
+                rs.close();
+                list.add(contatto);
+            }
+        } catch(Exception ex) {
+            throw new DaoException(ex);
+        }
+        return list;
     }
 
     public List<Contatto> ricercaContattoPerCitta(String citta) throws DaoException {
-        return null;
+        String sql = "select * from contacts where city = ?";
+        List<Contatto> list = new ArrayList<>();
+
+        try(
+                Connection conn = DbUtil.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ){
+            stmt.setString(1, citta);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                Contatto contatto = new Contatto();
+                contatto.setId(rs.getInt("id"));
+                contatto.setNome(rs.getString("name"));
+                contatto.setGenere(rs.getString("gender"));
+                contatto.setEmail(rs.getString("email"));
+                contatto.setTelefono(rs.getString("phone"));
+                contatto.setCitta(rs.getString("city"));
+                contatto.setNazione(rs.getString("country"));
+                rs.close();
+                list.add(contatto);
+            }
+            rs.close();
+        } catch(Exception ex) {
+            throw new DaoException(ex);
+        }
+        return list;
     }
 
     public List<Contatto> ricercaContattoPerPaese(String paese) throws DaoException {
-        return null;
+        String sql = "select * from contacts where country = ?";
+        List<Contatto> list = new ArrayList<>();
+
+        try(
+                Connection conn = DbUtil.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql);
+        ){
+            stmt.setString(1, paese);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()){
+                Contatto contatto = new Contatto();
+                contatto.setId(rs.getInt("id"));
+                contatto.setNome(rs.getString("name"));
+                contatto.setGenere(rs.getString("gender"));
+                contatto.setEmail(rs.getString("email"));
+                contatto.setTelefono(rs.getString("phone"));
+                contatto.setCitta(rs.getString("city"));
+                contatto.setNazione(rs.getString("country"));
+                rs.close();
+                list.add(contatto);
+            }
+            rs.close();
+        } catch(Exception ex) {
+            throw new DaoException(ex);
+        }
+        return list;
     }
 }

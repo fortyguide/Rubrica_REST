@@ -15,12 +15,13 @@ import java.util.List;
  */
 
 public class ContattoDaoImpl implements ContattoDao {
+    DbUtil dbUtil = new DbUtil();
 
     public Contatto aggiuntaContatto(Contatto contatto) throws DaoException {
         String sql = "insert into contacts(name, gender, email, phone, city, country) values (?,?,?,?,?,?)";
 
         try(
-                Connection conn = DbUtil.getConnection();
+                Connection conn = dbUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         ){
             stmt.setString(1, contatto.getNome());
@@ -46,7 +47,7 @@ public class ContattoDaoImpl implements ContattoDao {
         String sql = "select * from contacts where id = ?";
 
         try(
-                Connection conn = DbUtil.getConnection();
+                Connection conn = dbUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             stmt.setInt(1, id);
@@ -62,12 +63,8 @@ public class ContattoDaoImpl implements ContattoDao {
                 contatto.setTelefono(rs.getString("phone"));
                 contatto.setCitta(rs.getString("city"));
                 contatto.setNazione(rs.getString("country"));
-                rs.close();
                 return contatto;
             }
-
-            rs.close();
-
         } catch (Exception ex) {
             throw new DaoException(ex);
         }
@@ -78,7 +75,7 @@ public class ContattoDaoImpl implements ContattoDao {
         String sql = "update contacts set name=?, gender=?, email=?, phone=?, city=?, country=? where id=?";
 
         try(
-                Connection conn = DbUtil.getConnection();
+                Connection conn = dbUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             stmt.setString(1, contatto.getNome());
@@ -104,7 +101,7 @@ public class ContattoDaoImpl implements ContattoDao {
         String sql = "delete from contacts where id = ?";
 
         try(
-                Connection conn = DbUtil.getConnection();
+                Connection conn = dbUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
         ) {
             stmt.setInt(1,id);
@@ -123,7 +120,7 @@ public class ContattoDaoImpl implements ContattoDao {
         List<Contatto> list = new ArrayList<>();
 
         try(
-                Connection conn = DbUtil.getConnection();
+                Connection conn = dbUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery();
         ){
@@ -136,7 +133,6 @@ public class ContattoDaoImpl implements ContattoDao {
                 contatto.setTelefono(rs.getString("phone"));
                 contatto.setCitta(rs.getString("city"));
                 contatto.setNazione(rs.getString("country"));
-                rs.close();
                 list.add(contatto);
             }
         } catch(Exception ex) {
@@ -150,7 +146,7 @@ public class ContattoDaoImpl implements ContattoDao {
         List<Contatto> list = new ArrayList<>();
 
         try(
-                Connection conn = DbUtil.getConnection();
+                Connection conn = dbUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
         ){
             stmt.setString(1, citta);
@@ -166,25 +162,23 @@ public class ContattoDaoImpl implements ContattoDao {
                 contatto.setTelefono(rs.getString("phone"));
                 contatto.setCitta(rs.getString("city"));
                 contatto.setNazione(rs.getString("country"));
-                rs.close();
                 list.add(contatto);
             }
-            rs.close();
         } catch(Exception ex) {
             throw new DaoException(ex);
         }
         return list;
     }
 
-    public List<Contatto> ricercaContattoPerPaese(String paese) throws DaoException {
+    public List<Contatto> ricercaContattoPerNazione(String nazione) throws DaoException {
         String sql = "select * from contacts where country = ?";
         List<Contatto> list = new ArrayList<>();
 
         try(
-                Connection conn = DbUtil.getConnection();
+                Connection conn = dbUtil.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
         ){
-            stmt.setString(1, paese);
+            stmt.setString(1, nazione);
 
             ResultSet rs = stmt.executeQuery();
 
@@ -197,10 +191,8 @@ public class ContattoDaoImpl implements ContattoDao {
                 contatto.setTelefono(rs.getString("phone"));
                 contatto.setCitta(rs.getString("city"));
                 contatto.setNazione(rs.getString("country"));
-                rs.close();
                 list.add(contatto);
             }
-            rs.close();
         } catch(Exception ex) {
             throw new DaoException(ex);
         }

@@ -19,5 +19,5 @@ public interface ContattoDao {
     //QUERY
     public List<Contatto> ricercaTuttiIContatti() throws DaoException;
     public List<Contatto> ricercaContattoPerCitta(String citta) throws DaoException;
-    public List<Contatto> ricercaContattoPerPaese(String paese) throws DaoException;
+    public List<Contatto> ricercaContattoPerNazione(String nazione) throws DaoException;
 }

@@ -1,29 +1,42 @@
 package utils;
 
+import com.mysql.cj.jdbc.MysqlDataSource;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 /**
- * Classe per aprire una connessione con il database H2
+ * Classe per aprire una connessione con il database Mysql
  */
-public final class DbUtil {
-    private static String driver, url, user, password;
+public class DbUtil {
+    private Connection con;
+    private String serverName, user, password, nomeDatabase;
+    private int portNumber;
 
-    private DbUtil() {
+    public DbUtil() {
     }
 
-    static {
+    /*Leggo il file properties jdbc.properties*/
+    {
         ResourceBundle rb = ResourceBundle.getBundle("jdbc");
-        driver = rb.getString("jdbc.driver");
-        url = rb.getString("jdbc.url");
+        serverName = rb.getString("jdbc.serverName");
+        portNumber = Integer.parseInt(rb.getString("jdbc.portNumber"));
         user = rb.getString("jdbc.user");
         password = rb.getString("jdbc.password");
+        nomeDatabase = rb.getString("jdbc.nomeDatabase");
     }
 
-    public static Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName(driver);
-        return DriverManager.getConnection(url,user, password);
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
+        if (con == null) {
+            MysqlDataSource dataSource = new MysqlDataSource();
+            dataSource.setServerName(serverName);
+            dataSource.setPortNumber(portNumber);
+            dataSource.setUser(user);
+            dataSource.setPassword(password);
+            dataSource.setDatabaseName(nomeDatabase);
+            con = dataSource.getConnection();
+        }
+        return con;
     }
 }

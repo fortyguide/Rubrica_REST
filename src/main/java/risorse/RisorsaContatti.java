@@ -3,11 +3,9 @@ package risorse;
 import dao.ContattoDao;
 import dao.ContattoDaoImpl;
 import dao.DaoException;
+import entita.Contatto;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 
 /**
@@ -45,5 +43,32 @@ public class RisorsaContatti {
     @GET
     public Response getContattoPerNazione(@PathParam("contact_nazione") String nazione) throws DaoException {
         return Response.ok(contattoDao.ricercaContattoPerNazione(nazione)).build();
+    }
+
+    @Path("aggiunta_contatto")
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    @POST
+    public Response postAggiuntaContatto(Contatto contatto) throws DaoException {
+        contatto = contattoDao.aggiuntaContatto(contatto);
+        return Response.ok(contatto).build();
+    }
+
+    @Path("modifica_contatto_con_id={contact_id}")
+    @Produces({"application/json"})
+    @Consumes({"application/json"})
+    @PUT
+    public Response putModificaContatto(@PathParam("contact_id") Integer id, Contatto contatto) throws DaoException {
+        contatto.setId(id);
+        contatto = contattoDao.modificaContatto(contatto);
+        return Response.ok(contatto).build();
+    }
+
+    @Path("cancella_contatto_con_id={contact_id}")
+    @Produces({"application/json"})
+    @DELETE
+    public Response deleteCancellaContatto(@PathParam("contact_id") Integer id) throws DaoException {
+        contattoDao.cancellazioneContatto(id);
+        return Response.ok().build();
     }
 }

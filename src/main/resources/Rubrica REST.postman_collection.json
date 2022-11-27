@@ -1,0 +1,263 @@
+{
+	"info": {
+		"_postman_id": "533b87a9-43c9-4802-9113-0597430a47a9",
+		"name": "Rubrica REST",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Hello",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/plain",
+						"type": "default"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default",
+						"disabled": true
+					},
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/Rubrica_REST/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Rubrica_REST",
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Visualizza tutti i contatti",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/Rubrica_REST/contatti",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Rubrica_REST",
+						"contatti"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Visualizza contatti per città",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/Rubrica_REST/contatti/citta=Taranto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Rubrica_REST",
+						"contatti",
+						"citta=Taranto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Visualizza contatti per id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/Rubrica_REST/contatti/id=1010",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Rubrica_REST",
+						"contatti",
+						"id=1010"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Visualizza contatti per nazione",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/Rubrica_REST/contatti/nazione=Peru",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Rubrica_REST",
+						"contatti",
+						"nazione=Peru"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aggiungi contatto",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Pippo\",\r\n    \"email\": \"pippo@gmail.com\",\r\n    \"genere\": \"Male\",\r\n    \"telefono\": \"+91 973 142 4784\",\r\n    \"citta\": \"Bangalore\",\r\n    \"nazione\": \"India\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Rubrica_REST/contatti/aggiunta_contatto",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Rubrica_REST",
+						"contatti",
+						"aggiunta_contatto"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modifica contatto",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "default"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nome\": \"Pippo\",\r\n    \"email\": \"pippo@gmail.com\",\r\n    \"genere\": \"Male\",\r\n    \"telefono\": \"+91 973 142 4784\",\r\n    \"citta\": \"Tokyo\",\r\n    \"nazione\": \"Giappone\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/Rubrica_REST/contatti/modifica_contatto_con_id=1003",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Rubrica_REST",
+						"contatti",
+						"modifica_contatto_con_id=1003"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cancella contatto",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/Rubrica_REST/contatti/cancella_contatto_con_id=1010",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"Rubrica_REST",
+						"contatti",
+						"cancella_contatto_con_id=1010"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
